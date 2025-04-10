@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: slack-reminder-bot
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: slack-reminder-bot
+  template:
+    metadata:
+      labels:
+        app: slack-reminder-bot
+    spec:
+      containers:
+        - name: slack-reminder
+          image: 379804480198.dkr.ecr.us-east-1.amazonaws.com/slack-reminder-bot:latest
+          ports:
+            - containerPort: 5000
