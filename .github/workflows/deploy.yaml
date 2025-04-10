@@ -3,7 +3,11 @@ name: Deploy to AWS ECR
 on:
   push:
     branches:
-      - main 
+      - master
+
+env:
+  IMAGE_URI: 379804480198.dkr.ecr.us-east-1.amazonaws.com/slack-reminder-bot:latest
+  AWS_REGION: us-east-1
 
 jobs:
   build-and-deploy:
@@ -16,14 +20,14 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.10
+          python-version: 3.x
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1  # Change if your ECR repo is in another region
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Log in to Amazon ECR
         id: login-ecr
@@ -31,6 +35,6 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          IMAGE_URI=379804480198.dkr.ecr.us-east-1.amazonaws.com/slack-reminder-bot:latest
+          set -e
           docker build -t $IMAGE_URI .
           docker push $IMAGE_URI
