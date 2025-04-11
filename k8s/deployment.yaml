@@ -17,3 +17,9 @@ spec:
           image: 379804480198.dkr.ecr.us-east-1.amazonaws.com/slack-reminder-bot:latest
           ports:
             - containerPort: 5000
+          env:
+            - name: SLACK_BOT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: slack-bot-secret
+                  key: SLACK_BOT_TOKEN
