@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: slack-reminder-job
+spec:
+  template:
+    spec:
+      containers:
+        - name: slack-reminder
+          image: 379804480198.dkr.ecr.us-east-1.amazonaws.com/slack-reminder-bot:latest
+          env:
+            - name: SLACK_BOT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: slack-bot-secret
+                  key: SLACK_BOT_TOKEN
+          command: ["python3", "bot.py"]
+      restartPolicy: Never
