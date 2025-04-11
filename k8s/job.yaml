@@ -16,3 +16,4 @@ spec:
                   key: SLACK_BOT_TOKEN
           command: ["python3", "bot.py"]
       restartPolicy: Never
+  backoffLimit: 1
